@@ -1,0 +1,4 @@
+Flask==3.1.0
+Flask-RESTful==0.3.10
+flask-smorest==0.45.0
+pandas==2.2.3
