@@ -2,13 +2,14 @@
 Server core module.
 """
 
+import atexit
 from flask import Flask
 from flask_smorest import Api
 
-from src.server import blueprints
+from src.server import blueprints, core
 
 
-def main():
+def main(host="0.0.0.0", port=5000, debug=True):
     """
     Server entry point.
     """
@@ -27,8 +28,9 @@ def main():
     # app.config["LOG_FILE_PATH"] = LOG_FILE_PATH
 
     api = Api(app)
-
+    path = f"{"/".join(__file__.split('/')[0:-3])}/data"
     blueprints.init(api)
+    atexit.register(core.init(path))
 
     # Start the server
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host=host, port=port, debug=debug)

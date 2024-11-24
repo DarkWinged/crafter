@@ -1,5 +1,5 @@
 """
-Endpoints for the `/items` blueprint.
+Blueprint for item routes
 """
 
 from flask_smorest import Blueprint
@@ -9,8 +9,6 @@ from src.server.schemas.item import ItemSchema
 blp = Blueprint(
     "Items", __name__, description="Endpoints for managing items.", url_prefix="/items"
 )
-
-# Initialize the singleton instance
 item_table = ItemTable()
 
 
@@ -28,17 +26,17 @@ def get_all_items():
     """
     Retrieve all items.
     """
-    return item_table.get_items()
+    return item_table.get_many()
 
 
 @blp.route("/", methods=["POST"])
 @blp.arguments(ItemSchema(many=True))
-@blp.response(201, ItemSchema(many=True))
+@blp.response(200)
 def create_items(items):
     """
     Create new items.
     """
-    return item_table.add_items(items)
+    return item_table.add_many(items)
 
 
 @blp.route("/<int:item_id>", methods=["GET"])
@@ -47,17 +45,17 @@ def get_item(item_id):
     """
     Retrieve an item by its ID.
     """
-    return item_table.get_item(item_id)
+    return item_table.get_one(item_id)
 
 
 @blp.route("/<int:item_id>", methods=["PUT"])
 @blp.arguments(ItemSchema)
-@blp.response(200, ItemSchema)
+@blp.response(200)
 def update_item(updated_item, item_id):
     """
     Update or create an item by its ID.
     """
-    return item_table.update_or_create_item(item_id, updated_item)
+    return item_table.update_or_create(item_id, updated_item)
 
 
 @blp.route("/<int:item_id>", methods=["DELETE"])
@@ -66,4 +64,4 @@ def delete_item(item_id):
     """
     Delete an item by its ID.
     """
-    return item_table.delete_item(item_id)
+    return item_table.delete(item_id)

@@ -1,0 +1,44 @@
+"""
+Module for the core of the server.
+"""
+
+from logging import Logger
+from typing import Dict
+
+from flask import Flask
+from marshmallow import pprint
+from src.server.core import item, recipe, base
+from src.utils.file_managment import read, write
+
+
+tables: Dict[str, base.TableProtocol] = {
+    "items": item.ItemTable,
+    "recipes": recipe.RecipeTable,
+}
+
+logger = Logger(__file__)
+
+
+def init(path: str) -> None:
+    """
+    Initialize the db tables.
+    """
+    extension = "yaml"
+    for name, table in tables.items():
+        full_path = f"{path.removesuffix("/")}/{name}.{extension}"
+        try:
+            content = read(full_path)
+            table().add_many(content)
+        except FileNotFoundError:
+            logger.error("File not found: %s", full_path)
+
+    def offload() -> None:
+        """
+        Offload the db tables.
+        """
+        for name, table in tables.items():
+            full_path = f"{path.removesuffix('/')}/{name}.{extension}"
+            content = table().get_many()
+            write(full_path, content)
+
+    return offload

@@ -11,5 +11,5 @@ class ItemSchema(Base):
     Schema for an item.
     """
 
-    item_id = fields.Int(required=True, description="The unique ID of the item")
-    name = fields.Str(required=True, description="The name of the item")
+    ITEM_ID = fields.Int(required=True, description="The unique ID of the item")
+    NAME = fields.Str(required=True, description="The name of the item")
