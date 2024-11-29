@@ -2,7 +2,7 @@
 Module for the base classes and protocols.
 """
 
-from typing import Dict, Protocol
+from typing import Dict, List, Protocol
 
 
 class TableProtocol(Protocol):
@@ -15,7 +15,7 @@ class TableProtocol(Protocol):
         Protocol for adding multiple entries to the table.
         """
 
-    def get_many(self) -> Dict:
+    def get_many(self) -> List:
         """
         Protocol for getting all entries from the table.
         """
@@ -40,7 +40,7 @@ class TableProtocol(Protocol):
         Protocol for deleting an entry from the table.
         """
 
-    def query(self, query: str) -> Dict:
+    def query(self, query: dict) -> List:
         """
         Protocol for querying the table.
         """

@@ -4,7 +4,7 @@ Blueprint for recipe routes
 
 from flask_smorest import Blueprint
 from src.server.core.recipe import RecipeTable
-from src.server.schemas.recipe import RecipeSchema
+from src.server.schemas.recipe import RecipeQuerySchema, RecipeSchema
 
 blp = Blueprint(
     "Recipes",
@@ -68,3 +68,13 @@ def delete_recipe(recipe_id):
     Delete a recipe by its ID.
     """
     return recipe_table.delete(recipe_id)
+
+
+@blp.route("/query", methods=["POST"])
+@blp.arguments(RecipeQuerySchema)
+@blp.response(200, RecipeSchema(many=True))
+def query_recipes(query):
+    """
+    Query recipes by the given query.
+    """
+    return recipe_table.query(query)

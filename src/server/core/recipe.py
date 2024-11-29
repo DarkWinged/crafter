@@ -34,7 +34,7 @@ class RecipeTable:
         """
         recipe_row = RecipeTable._recipes[RecipeTable._recipes["RECIPE_ID"] == entry_id]
         if recipe_row.empty:
-            abort(404, DESCRIPTION=f"Recipe with id  {entry_id}  not found")
+            abort(404, description=f"Recipe with id  {entry_id}  not found")
         return recipe_row.to_dict(orient="records")[0]
 
     def add_one(self, content: dict) -> dict:
@@ -42,7 +42,7 @@ class RecipeTable:
         Adds a new recipe to the table.
         """
         if content["RECIPE_ID"] in RecipeTable._recipes["RECIPE_ID"].values:
-            abort(409, DESCRIPTION=f"RECIPE_ID {content['RECIPE_ID']} already exists")
+            abort(409, description=f"RECIPE_ID {content['RECIPE_ID']} already exists")
         RecipeTable._recipes = pd.concat(
             [
                 RecipeTable._recipes,
@@ -81,7 +81,7 @@ class RecipeTable:
         """
         if entry_id != content["RECIPE_ID"]:
             if entry_id not in RecipeTable._recipes["RECIPE_ID"].values:
-                abort(404, DESCRIPTION=f"RECIPE_ID  {entry_id}  not found")
+                abort(404, description=f"RECIPE_ID  {entry_id}  not found")
             if content["RECIPE_ID"] in RecipeTable._recipes["RECIPE_ID"].values:
                 abort(
                     409,
@@ -105,8 +105,16 @@ class RecipeTable:
         Deletes a recipe by its ID.
         """
         if entry_id not in RecipeTable._recipes["RECIPE_ID"].values:
-            abort(404, DESCRIPTION=f"RECIPE_ID  {entry_id}  not found")
+            abort(404, description=f"RECIPE_ID  {entry_id}  not found")
         RecipeTable._recipes = RecipeTable._recipes[
             RecipeTable._recipes["RECIPE_ID"] != entry_id
         ]
         return {"message": "Recipe deleted successfully"}
+
+    def query(self, query: dict) -> dict:
+        """
+        Queries the recipe table.
+        """
+        return RecipeTable._recipes.query(
+            " and ".join([f"{key} == {value}" for key, value in query.items()])
+        ).to_dict(orient="records")

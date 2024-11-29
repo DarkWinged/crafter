@@ -3,18 +3,18 @@ Module for the core of the server.
 """
 
 from logging import Logger
-from typing import Dict
+from typing import List, Tuple
 
-from flask import Flask
-from marshmallow import pprint
-from src.server.core import item, recipe, base
+from src.server.core import item, recipe, ingredient, base, product
 from src.utils.file_managment import read, write
 
 
-tables: Dict[str, base.TableProtocol] = {
-    "items": item.ItemTable,
-    "recipes": recipe.RecipeTable,
-}
+tables: List[Tuple[str, base.TableProtocol]] = [
+    ("items", item.ItemTable),
+    ("recipes", recipe.RecipeTable),
+    ("ingredients", ingredient.IngredientTable),
+    ("products", product.ProductTable),
+]
 
 logger = Logger(__file__)
 
@@ -24,7 +24,8 @@ def init(path: str) -> None:
     Initialize the db tables.
     """
     extension = "yaml"
-    for name, table in tables.items():
+    for name, table in tables:
+        logger.info("Initializing %s", name)
         full_path = f"{path.removesuffix("/")}/{name}.{extension}"
         try:
             content = read(full_path)
@@ -36,7 +37,8 @@ def init(path: str) -> None:
         """
         Offload the db tables.
         """
-        for name, table in tables.items():
+        for name, table in tables:
+            logger.info("Offloading %s", name)
             full_path = f"{path.removesuffix('/')}/{name}.{extension}"
             content = table().get_many()
             write(full_path, content)

@@ -20,7 +20,7 @@ class ItemTable:
         if ItemTable._items is None:
             ItemTable._items = pd.DataFrame(columns=["ITEM_ID", "NAME"])
 
-    def get_many(self) -> dict:
+    def get_many(self) -> list:
         """
         Returns the current items DataFrame.
         """
@@ -95,3 +95,11 @@ class ItemTable:
             abort(404, description=f"Item with id {entry_id} not found")
         ItemTable._items = ItemTable._items[ItemTable._items["ITEM_ID"] != entry_id]
         return {"message": "Item deleted successfully"}
+
+    def query(self, query: dict) -> list:
+        """
+        Queries the item table.
+        """
+        return ItemTable._items.query(
+            " and ".join([f"{key} == {value}" for key, value in query.items()])
+        ).to_dict(orient="records")

@@ -4,7 +4,7 @@ Blueprint for item routes
 
 from flask_smorest import Blueprint
 from src.server.core.item import ItemTable
-from src.server.schemas.item import ItemSchema
+from src.server.schemas.item import ItemQuerySchema, ItemSchema
 
 blp = Blueprint(
     "Items", __name__, description="Endpoints for managing items.", url_prefix="/items"
@@ -65,3 +65,13 @@ def delete_item(item_id):
     Delete an item by its ID.
     """
     return item_table.delete(item_id)
+
+
+@blp.route("/query", methods=["POST"])
+@blp.arguments(ItemQuerySchema)
+@blp.response(200, ItemSchema(many=True))
+def query_items(query):
+    """
+    Query for items.
+    """
+    return item_table.query(query)

@@ -3,7 +3,7 @@ This module initializes the blueprints and registers them with the Flask-Smorest
 """
 
 from flask_restful import Api
-from src.server.blueprints import base, item, recipe
+from src.server.blueprints import base, item, recipe, ingredient, product
 
 
 def init(api: Api):
@@ -11,7 +11,7 @@ def init(api: Api):
     Initialize and register blueprints with Flask-Smorest API.
     """
     # List of blueprints to register
-    blueprints = [item, recipe]
+    blueprints = [item, recipe, ingredient, product]
     endpoints = []
 
     # Register each blueprint with the API instance
