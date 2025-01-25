@@ -35,7 +35,7 @@ jobs:
       - name: Set up Python
         uses: astral-sh/setup-uv@v5
         with:
-          pyproject-file: "path/to/pyproject.toml"
+          pyproject-file: pyproject.toml
       - name: Run ruff check
         run: |
           uv run ruff check .
