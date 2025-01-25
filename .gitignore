@@ -1,6 +1,6 @@
-venv
+*venv
 __pycache__
 temp.*
 data
 .env*
-.ruff_cache
+.*_cache

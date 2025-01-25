@@ -32,11 +32,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version: '3.13'
-          cache: 'pip' # caching pip dependencies
-      - run: pip install -r requirements.txt
+          enable-cache: true
+          pyproject-file: pyproject.toml
+          version: "0.5.24"
+          checksum: "a0eb614f7fc38a6e14ef1c4819f1f187591db8e0d3c4218dae38b1bd663a00e2"
       - name: Run ruff check
         run: |
-          ruff check .
+          uv run ruff check .
