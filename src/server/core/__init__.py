@@ -26,7 +26,7 @@ def init(path: str) -> None:
     extension = "yaml"
     for name, table in tables:
         logger.info("Initializing %s", name)
-        full_path = f"{path.removesuffix("/")}/{name}.{extension}"
+        full_path = f"{path.removesuffix('/')}/{name}.{extension}"
         try:
             content = read(full_path)
             table().add_many(content)
