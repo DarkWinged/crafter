@@ -85,7 +85,7 @@ class RecipeTable:
             if content["RECIPE_ID"] in RecipeTable._recipes["RECIPE_ID"].values:
                 abort(
                     409,
-                    DESCRIPTION=f"RECIPE_ID { content ['RECIPE_ID']} already exists",
+                    DESCRIPTION=f"RECIPE_ID {content['RECIPE_ID']} already exists",
                 )
             self.add_one(content)
             self.delete(entry_id)
