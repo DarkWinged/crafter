@@ -19,8 +19,8 @@ jobs:
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) 1.6.17
       - name: Run actionlint
         shell: bash
-        run: actionlint
-  mypy:
+        run: ./actionlint
+  ruff:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
