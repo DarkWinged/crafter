@@ -4,6 +4,23 @@
 
 This is a python app that provides an api for users to access a crafting database. This database holds tables containng items, recipies, ingredients, and products.
 
+### Setup
+
+1. install [uv](https://github.com/astral-sh/uv)
+2. clone this repo
+3. sync the packages
+   ```bash
+   uv sync
+   ```
+
+### Usage
+
+Run the app with uv run
+
+```bash
+uv run main.py
+```
+
 #### Tables
 
 | name       | contents                             | key           | role                                                             |
