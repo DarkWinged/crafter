@@ -1,6 +1,7 @@
 """
 Module for the core of the server.
 """
+
 import os.path
 from logging import Logger
 from typing import List, Tuple
@@ -27,7 +28,6 @@ def init(path: str) -> None:
     for name, table in tables:
         logger.info("Initializing %s", name)
         full_path = os.path.join(path, f"{name}.{extension}")
-        print(full_path)
         try:
             content = read(full_path)
             table().add_many(content)
@@ -41,7 +41,6 @@ def init(path: str) -> None:
         for name, table in tables:
             logger.info("Offloading %s", name)
             full_path = os.path.join(path, f"{name}.{extension}")
-            print(full_path)
             content = table().get_many()
             write(full_path, content)
 
