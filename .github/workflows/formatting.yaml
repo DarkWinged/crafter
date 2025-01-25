@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: "20"
       - shell: bash
-        run: npx prettier --parser markdown **/*.md -c
+        run: npx prettier --parser markdown ./**/*.md -c
   prettier-yaml:
     runs-on: ubuntu-latest
     steps:
@@ -42,4 +42,4 @@ jobs:
         with:
           node-version: "20"
       - shell: bash
-        run: npx prettier --parser yaml **/*.yaml -c
+        run: npx prettier --parser yaml ./**/*.yaml -c
