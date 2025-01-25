@@ -17,6 +17,14 @@ jobs:
         shell: bash
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) 1.6.17
+      - name: Validate actionlint binary
+        run: |
+          EXPECTED_SHA="d7871032a99d739d9a8bfa78980d8cd0cbfebfcb9e49e01b62bdbe8fc61ac49f"
+          SHA="$(sha256sum ./actionlint | cut -d ' ' -f 1)"
+          if [ "$EXPECTED_SHA" != "$SHA" ]; then
+            echo "SHA mismatch: expected $EXPECTED_SHA but got $SHA"
+            exit 1
+          fi
       - name: Run actionlint
         shell: bash
         run: ./actionlint
