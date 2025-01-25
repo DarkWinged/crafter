@@ -3,4 +3,4 @@ __pycache__
 temp.*
 data
 .env*
-.ruff_cache
+.*_cache
