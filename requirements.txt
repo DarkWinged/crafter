@@ -4,3 +4,5 @@ flask-smorest==0.45.0
 pandas==2.2.3
 pyyaml==6.0.2
 python-dotenv==1.0.1
+pytest==8.3.4
+ruff==0.9.3
