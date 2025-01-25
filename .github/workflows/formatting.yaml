@@ -31,7 +31,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npx prettier --parser markdown **/*.md -c
+      - shell: bash
+        run: npx prettier --parser markdown **/*.md -c
   prettier-yaml:
     runs-on: ubuntu-latest
     steps:
@@ -40,4 +41,5 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: npx prettier --parser yaml **/*.yaml -c
+      - shell: bash
+        run: npx prettier --parser yaml **/*.yaml -c
