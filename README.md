@@ -1,10 +1,10 @@
 # crafter
 
-### Description
+## Description
 
 This is a python app that provides an api for users to access a crafting database. This database holds tables containng items, recipies, ingredients, and products.
 
-### Setup
+## Setup
 
 1. install [uv](https://github.com/astral-sh/uv)
 2. clone this repo
@@ -13,7 +13,7 @@ This is a python app that provides an api for users to access a crafting databas
    uv sync
    ```
 
-### Usage
+## Usage
 
 Run the app with uv run
 
@@ -21,7 +21,7 @@ Run the app with uv run
 uv run main.py
 ```
 
-#### Tables
+### Tables
 
 | name       | contents                             | key           | role                                                             |
 | ---------- | ------------------------------------ | ------------- | ---------------------------------------------------------------- |
@@ -30,7 +30,9 @@ uv run main.py
 | ingredient | recipe id, item id, units per minute | ingredient id | bridge table desribing what ingridents are consumbed by a recipe |
 | product    | recipe id, item id, units per minute | product id    | bridge table desribing what products are produced by a recipe    |
 
-#### Endpoints
+### Endpoints
+
+#### Implemented
 
 - GET /items # returns all items
 - GET /items/{item_id} # returns item with id item_id
@@ -52,6 +54,9 @@ uv run main.py
 - POST /products # creates new products from json body
 - PUT /products/{product_id} # updates or creates product at product_id
 - DELETE /products/{product_id} # deletes product at product_id
+
+#### Planned
+
 - POST /recipe # creates new item, recipe, ingredients, and products from json body
 - POST /craft/{recipe_id}/{scale} # returns the ingredients consumed and products produced by crafting recipe_id at scale
 - PUT /craft # returns the ingredients consumed and products produced by crafting recipe_id at scale
