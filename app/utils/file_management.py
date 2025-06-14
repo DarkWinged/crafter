@@ -91,9 +91,9 @@ def pd_write(path, content, encoding="utf-8"):
         raise ValueError("Path is a directory")
     extension = path.split(".")[-1]
     if extension == "yaml":
-        yaml.dump(content.to_dict(orient="records"), path)
+        yaml.dump(content.to_dict(orient="records"), path, encoding=encoding)
     elif extension == "json":
-        json.dump(content.to_dict(orient="records"), path)
+        json.dump(content.to_dict(orient="records"), path, encoding=encoding)
     elif extension == "csv":
         content.to_csv(path, index=False)
     elif extension == "tsv":

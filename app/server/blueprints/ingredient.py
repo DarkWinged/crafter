@@ -3,8 +3,8 @@ Blueprint for ingredient routes
 """
 
 from flask_smorest import Blueprint
-from src.server.core.ingredient import IngredientTable
-from src.server.schemas.ingredient import IngredientSchema, IngredientQuery
+from ..core import IngredientTable
+from ..schemas import IngredientSchema, IngredientQuery
 
 
 blp = Blueprint(

@@ -1,8 +1,8 @@
 from flask import abort
 import pandas as pd
 
-from src.server.core.item import ItemTable
-from src.server.core.recipe import RecipeTable
+from .item import ItemTable
+from .recipe import RecipeTable
 
 
 class IngredientTable:

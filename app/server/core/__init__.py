@@ -2,22 +2,25 @@
 Module for the core of the server.
 """
 
+import logging
 import os.path
-from logging import Logger
-from typing import List, Tuple
+from ...utils import read, write
 
-from src.server.core import item, recipe, ingredient, base, product
-from src.utils.file_managment import read, write
+from .product import ProductTable
+from .base import TableProtocol
+from .item import ItemTable
+from .recipe import RecipeTable
+from .ingredient import IngredientTable
 
 
-tables: List[Tuple[str, base.TableProtocol]] = [
-    ("items", item.ItemTable),
-    ("recipes", recipe.RecipeTable),
-    ("ingredients", ingredient.IngredientTable),
-    ("products", product.ProductTable),
+tables: list[tuple[str, TableProtocol]] = [
+    ("items", ItemTable),
+    ("recipes", RecipeTable),
+    ("ingredients", IngredientTable),
+    ("products", ProductTable),
 ]
 
-logger = Logger(__file__)
+logger = logging.getLogger(__name__)
 
 
 def init(path: str) -> None:
@@ -45,3 +48,13 @@ def init(path: str) -> None:
             write(full_path, content)
 
     return offload
+
+
+__all__ = [
+    "init",
+    "ItemTable",
+    "RecipeTable",
+    "IngredientTable",
+    "ProductTable",
+    "tables",
+]
