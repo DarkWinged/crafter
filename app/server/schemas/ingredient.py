@@ -17,16 +17,21 @@ class IngredientSchema(Base):
     )
     # Foreign keys
     ITEM_ID = fields.Int(
-        required=True, metadata={"Description": "The unique ID of the item used as an ingridient"}
+        required=True,
+        metadata={"Description": "The unique ID of the item used as an ingridient"},
     )
     RECIPE_ID = fields.Int(
         required=True,
-        metadata={"Description": "The unique ID of the recipe that uses the ingridient"},
+        metadata={
+            "Description": "The unique ID of the recipe that uses the ingridient"
+        },
     )
     # Data fields
     RATE = fields.Int(
         required=True,
-        metadata={"Description": "The rate at which the ingridient is used in the recipe"},
+        metadata={
+            "Description": "The rate at which the ingridient is used in the recipe"
+        },
     )
 
 
@@ -39,13 +44,18 @@ class IngredientQuery(Base):
         required=False, metadata={"Description": "The unique ID of the ingridient"}
     )
     ITEM_ID = fields.Int(
-        required=False, metadata={"Description": "The unique ID of the item used as an ingridient"}
+        required=False,
+        metadata={"Description": "The unique ID of the item used as an ingridient"},
     )
     RECIPE_ID = fields.Int(
         required=False,
-        metadata={"Description": "The unique ID of the recipe that uses the ingridient"},
+        metadata={
+            "Description": "The unique ID of the recipe that uses the ingridient"
+        },
     )
     RATE = fields.Int(
         required=False,
-        metadata={"Description": "The rate at which the ingridient is used in the recipe"},
+        metadata={
+            "Description": "The rate at which the ingridient is used in the recipe"
+        },
     )
