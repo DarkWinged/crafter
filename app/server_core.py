@@ -6,8 +6,8 @@ import atexit
 from flask import Flask
 from flask_smorest import Api
 
-from src.server import blueprints, core
-from src.utils.envs import API_VERSION, ARCHIVE_PATH, HOST, PORT
+from .server import blueprints, core
+from .utils import API_VERSION, ARCHIVE_PATH, HOST, PORT
 
 
 def main(debug=True):

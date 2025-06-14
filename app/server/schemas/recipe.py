@@ -3,7 +3,7 @@ This module contains the schema for recipe objects.
 """
 
 from marshmallow import fields
-from src.server.schemas.base import Base
+from .base import Base
 
 
 class RecipeSchema(Base):
@@ -13,28 +13,28 @@ class RecipeSchema(Base):
 
     # Primary key
     RECIPE_ID = fields.Int(
-        required=True, description="The unique ID of the recipe"
+        required=True, metadata={"Description": "The unique ID of the recipe"}
     )  # The unique ID of the recipe
     # Data fields
     NAME = fields.Str(
-        required=True, description="The name of the recipe"
+        required=True, metadata={"Description": "The name of the recipe"}
     )  # The name of the recipe
     DESCRIPTION = fields.Str(
-        required=False, description="The description of the recipe"
+        required=False, metadata={"Description": "The description of the recipe"}
     )  # The description of the recipe
 
 
-class RecipeQuerySchema(Base):
+class RecipeQuery(Base):
     """
     Schema for an recipe query.
     """
 
     RECIPE_ID = fields.Int(
-        required=False, description="The unique ID of the recipe"
+        required=False, metadata={"Description": "The unique ID of the recipe"}
     )  # The unique ID of the recipe
     NAME = fields.Str(
-        required=False, description="The name of the recipe"
+        required=False, metadata={"Description": "The name of the recipe"}
     )  # The name of the recipe
     DESCRIPTION = fields.Str(
-        required=False, description="The description of the recipe"
+        required=False, metadata={"Description": "The description of the recipe"}
     )  # The description of the recipe

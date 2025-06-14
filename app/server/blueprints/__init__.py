@@ -3,7 +3,7 @@ This module initializes the blueprints and registers them with the Flask-Smorest
 """
 
 from flask_restful import Api
-from src.server.blueprints import base, item, recipe, ingredient, product
+from . import base, item, recipe, ingredient, product
 
 
 def init(api: Api):
@@ -19,3 +19,13 @@ def init(api: Api):
         endpoint = blueprint.init(api)
         endpoints.append(endpoint)
     base.init(api, endpoints)
+
+
+__all__ = [
+    "init",
+    "base",
+    "item",
+    "recipe",
+    "ingredient",
+    "product",
+]

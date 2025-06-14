@@ -3,8 +3,8 @@ Blueprint for product routes.
 """
 
 from flask_smorest import Blueprint
-from src.server.core.product import ProductTable
-from src.server.schemas.product import ProductSchema, ProductQuerySchema
+from ..core import ProductTable
+from ..schemas import ProductSchema, ProductQuery
 
 blp = Blueprint(
     "Products",
@@ -71,7 +71,7 @@ def delete_product(product_id):
 
 
 @blp.route("/query", methods=["POST"])
-@blp.arguments(ProductQuerySchema)
+@blp.arguments(ProductQuery)
 @blp.response(200, ProductSchema(many=True))
 def query_products(query):
     """
