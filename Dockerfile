@@ -29,4 +29,4 @@ RUN <<EORUN
 EORUN
 
 USER craftsman
-ENTRYPOINT [ "bash" ]
+ENTRYPOINT [ "server" ]
