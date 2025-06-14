@@ -2,7 +2,7 @@
 Module for the core of the server.
 """
 
-from logging import Logger
+import logging
 import os.path
 from ...utils import read, write
 
@@ -20,7 +20,7 @@ tables: list[tuple[str, TableProtocol]] = [
     ("products", ProductTable),
 ]
 
-logger = Logger(__file__)
+logger = logging.getLogger(__name__)
 
 
 def init(path: str) -> None:
