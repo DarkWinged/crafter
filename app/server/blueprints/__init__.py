@@ -6,26 +6,24 @@ from flask_restful import Api
 from . import base, item, recipe, ingredient, product
 
 
-def init(api: Api):
+def init(api: Api, url_prefix: str = ""):
     """
     Initialize and register blueprints with Flask-Smorest API.
     """
     # List of blueprints to register
     blueprints = [item, recipe, ingredient, product]
-    endpoints = []
-
+    url_prefix = url_prefix.rstrip("/")
     # Register each blueprint with the API instance
-    for blueprint in blueprints:
-        endpoint = blueprint.init(api)
-        endpoints.append(endpoint)
-    base.init(api, endpoints)
+    if url_prefix:
+        endpoints = list(
+            map(
+                lambda blueprint: blueprint.init(api, url_prefix=url_prefix), blueprints
+            )
+        )
+        base.init(api, endpoints, url_prefix=url_prefix)
+    else:
+        endpoints = list(map(lambda blueprint: blueprint.init(api), blueprints))
+        base.init(api, endpoints)
 
 
-__all__ = [
-    "init",
-    "base",
-    "item",
-    "recipe",
-    "ingredient",
-    "product",
-]
+__all__ = ["init"]
