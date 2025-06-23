@@ -32,9 +32,7 @@ def init(api, endpoints, url_prefix: str | None = None):
             links_html += f'<a href="{link["url"]}">{link["name"]}</a><br>'
         # Add Swagger API documentation link
         if url_prefix:
-            links_html += (
-                f'<a href="{url_prefix}/docs">' "Swagger API Documentation</a>"
-            )
+            links_html += f'<a href="{url_prefix}/docs">Swagger API Documentation</a>'
         else:
             links_html += '<a href="/docs">Swagger API Documentation</a>'
         links_html += "</body></html>"
