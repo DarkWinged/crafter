@@ -7,7 +7,7 @@ from ..core import ProductTable
 from ..schemas import ProductSchema, ProductQuery
 
 
-def init(api, url_prefix=""):
+def init():
     """
     Registers the product blueprint with the given API instance.
     """
@@ -15,7 +15,7 @@ def init(api, url_prefix=""):
         "Products",
         __name__,
         description="Endpoints for managing products.",
-        url_prefix=url_prefix + "/products",
+        url_prefix="/products",
     )
     product_table = ProductTable()
 
@@ -70,5 +70,4 @@ def init(api, url_prefix=""):
         """
         return product_table.query(query)
 
-    api.register_blueprint(blp)
-    return {"url": blp.url_prefix, "name": blp.name}
+    return blp

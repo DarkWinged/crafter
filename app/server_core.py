@@ -45,7 +45,7 @@ def run_flask(args):
         API_VERSION=f"v{API_VERSION}",
         OPENAPI_VERSION="3.0.3",
         OPENAPI_JSON_PATH="openapi.json",
-        OPENAPI_URL_PREFIX="/",
+        OPENAPI_URL_PREFIX=args.url_prefix,
         OPENAPI_SWAGGER_UI_PATH="/docs",
         OPENAPI_SWAGGER_UI_URL="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.25.0/",
     )

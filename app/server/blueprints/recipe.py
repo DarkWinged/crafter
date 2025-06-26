@@ -7,7 +7,7 @@ from ..core import RecipeTable
 from ..schemas import RecipeQuery, RecipeSchema
 
 
-def init(api, url_prefix=""):
+def init():
     """
     Registers the recipe blueprint with the given API instance.
     """
@@ -15,7 +15,7 @@ def init(api, url_prefix=""):
         "Recipes",
         __name__,
         description="Endpoints for managing recipes.",
-        url_prefix=url_prefix + "/recipes",
+        url_prefix="/recipes",
     )
     recipe_table = RecipeTable()
 
@@ -70,5 +70,4 @@ def init(api, url_prefix=""):
         """
         return recipe_table.query(query)
 
-    api.register_blueprint(blp)
-    return {"url": blp.url_prefix, "name": blp.name}
+    return blp

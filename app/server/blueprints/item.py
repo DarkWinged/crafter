@@ -7,7 +7,7 @@ from ..core import ItemTable
 from ..schemas import ItemQuery, ItemSchema
 
 
-def init(api, url_prefix=""):
+def init():
     """
     Registers the item blueprint with the given API instance.
     """
@@ -15,7 +15,7 @@ def init(api, url_prefix=""):
         "Items",
         __name__,
         description="Endpoints for managing items.",
-        url_prefix=url_prefix + "/items",
+        url_prefix="/items",
     )
     item_table = ItemTable()
 
@@ -70,5 +70,4 @@ def init(api, url_prefix=""):
         """
         return item_table.query(query)
 
-    api.register_blueprint(blp)
-    return {"url": blp.url_prefix, "name": blp.name}
+    return blp
