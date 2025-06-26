@@ -6,7 +6,7 @@ from flask import Response
 from flask_smorest import Blueprint
 
 
-def init(api, endpoints, url_prefix: str | None = None):
+def init(endpoints, url_prefix: str | None = None):
     """
     Initialize the base blueprint and populate dynamic links.
     """
@@ -40,7 +40,4 @@ def init(api, endpoints, url_prefix: str | None = None):
         links_html += "</body></html>"
         return Response(links_html, mimetype="text/html")
 
-    for endpoint in endpoints:
-        blp.register_blueprint(endpoint)
-
-    api.register_blueprint(blp)
+    return blp

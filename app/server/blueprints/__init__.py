@@ -16,9 +16,14 @@ def init(api: Api, url_prefix: str = ""):
     # Register each blueprint with the API instance
     endpoints = [blueprint.init() for blueprint in blueprints]
     if url_prefix:
-        base.init(api, endpoints, url_prefix=url_prefix)
+        base_blp = base.init(endpoints, url_prefix=url_prefix)
     else:
-        base.init(api, endpoints)
+        base_blp = base.init(endpoints)
+
+    for endpoint in endpoints:
+        base_blp.register_blueprint(endpoint)
+
+    api.register_blueprint(base_blp)
 
 
 __all__ = ["init"]
