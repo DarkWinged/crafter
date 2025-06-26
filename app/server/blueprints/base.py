@@ -6,7 +6,7 @@ from flask import Response
 from flask_smorest import Blueprint
 
 
-def init(api, endpoints, url_prefix: str | None = None):
+def init(endpoints, url_prefix: str | None = None):
     """
     Initialize the base blueprint and populate dynamic links.
     """
@@ -15,6 +15,7 @@ def init(api, endpoints, url_prefix: str | None = None):
         "Base",
         __name__,
         description="General endpoints for server information.",
+        url_prefix=url_prefix or "",
     )
 
     @blp.route("/")
@@ -26,11 +27,12 @@ def init(api, endpoints, url_prefix: str | None = None):
         """
         Returns links to the other blueprints and to the API documentation.
         """
-        # Build HTML links for the registered blueprints
         links_html = "<html><body>"
-        for link in endpoints:
-            links_html += f'<a href="{link["url"]}">{link["name"]}</a><br>'
-        # Add Swagger API documentation link
+        for endpoint in endpoints:
+            if url_prefix:
+                links_html += f'<a href="{url_prefix}{endpoint.url_prefix}">{endpoint.name}</a><br>'
+            else:
+                links_html += f'<a href="{endpoint.url_prefix}">{endpoint.name}</a><br>'
         if url_prefix:
             links_html += f'<a href="{url_prefix}/docs">Swagger API Documentation</a>'
         else:
@@ -38,4 +40,4 @@ def init(api, endpoints, url_prefix: str | None = None):
         links_html += "</body></html>"
         return Response(links_html, mimetype="text/html")
 
-    api.register_blueprint(blp)
+    return blp

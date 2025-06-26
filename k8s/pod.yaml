@@ -10,6 +10,8 @@ spec:
     - name: craftsman-container
       image: registry.internal:80/craftsman:0.3.1
       imagePullPolicy: Always
+      args:
+        - --url-prefix=/craftsman
       ports:
         - containerPort: 5000
       env:

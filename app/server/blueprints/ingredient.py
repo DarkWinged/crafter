@@ -7,7 +7,7 @@ from ..core import IngredientTable
 from ..schemas import IngredientSchema, IngredientQuery
 
 
-def init(api, url_prefix=""):
+def init():
     """
     Registers the ingredient blueprint with the given API instance.
     """
@@ -15,7 +15,7 @@ def init(api, url_prefix=""):
         "Ingredients",
         __name__,
         description="Endpoints for managing ingredients.",
-        url_prefix=url_prefix + "/ingredients",
+        url_prefix="/ingredients",
     )
     ingredient_table = IngredientTable()
 
@@ -70,5 +70,4 @@ def init(api, url_prefix=""):
         """
         return ingredient_table.delete(ingredient_id)
 
-    api.register_blueprint(blp)
-    return {"url": blp.url_prefix, "name": blp.name}
+    return blp
