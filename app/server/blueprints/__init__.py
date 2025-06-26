@@ -14,7 +14,7 @@ def init(api: Api, url_prefix: str = ""):
     blueprints = [item, recipe, ingredient, product]
     url_prefix = url_prefix.rstrip("/")
     # Register each blueprint with the API instance
-    endpoints = list(map(lambda blueprint: blueprint.init(), blueprints))
+    endpoints = [blueprint.init() for blueprint in blueprints]
     if url_prefix:
         base.init(api, endpoints, url_prefix=url_prefix)
     else:
