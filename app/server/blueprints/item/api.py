@@ -1,23 +1,20 @@
-"""
-Blueprint for item routes
-"""
-
 from flask_smorest import Blueprint
-from ..core import ItemTable
-from ..schemas import ItemQuery, ItemSchema
+
+from ....utils import API_MAJOR_VERSION
+from ...core import ItemTable
+from ...schemas import ItemQuery, ItemSchema
 
 
-def init():
+def init(url_prefix: str, table: ItemTable) -> Blueprint:
     """
-    Registers the item blueprint with the given API instance.
+    Initializes the API blueprint for item management endpoints.
     """
     blp = Blueprint(
         "Items",
         __name__,
         description="Endpoints for managing items.",
-        url_prefix="/items",
+        url_prefix=f"{url_prefix}/api/v{API_MAJOR_VERSION}/items",
     )
-    item_table = ItemTable()
 
     @blp.route("/", methods=["GET"])
     @blp.response(200, ItemSchema(many=True))
@@ -25,7 +22,7 @@ def init():
         """
         Retrieve all items.
         """
-        return item_table.get_many()
+        return table.get_many()
 
     @blp.route("/", methods=["POST"])
     @blp.arguments(ItemSchema(many=True))
@@ -34,7 +31,7 @@ def init():
         """
         Create new items.
         """
-        return item_table.add_many(items)
+        return table.add_many(items)
 
     @blp.route("/<int:item_id>", methods=["GET"])
     @blp.response(200, ItemSchema)
@@ -42,7 +39,7 @@ def init():
         """
         Retrieve an item by its ID.
         """
-        return item_table.get_one(item_id)
+        return table.get_one(item_id)
 
     @blp.route("/<int:item_id>", methods=["PUT"])
     @blp.arguments(ItemSchema)
@@ -51,7 +48,7 @@ def init():
         """
         Update or create an item by its ID.
         """
-        return item_table.update_or_create(item_id, updated_item)
+        return table.update_or_create(item_id, updated_item)
 
     @blp.route("/<int:item_id>", methods=["DELETE"])
     @blp.response(200)
@@ -59,7 +56,7 @@ def init():
         """
         Delete an item by its ID.
         """
-        return item_table.delete(item_id)
+        return table.delete(item_id)
 
     @blp.route("/query", methods=["POST"])
     @blp.arguments(ItemQuery)
@@ -68,6 +65,6 @@ def init():
         """
         Query for items.
         """
-        return item_table.query(query)
+        return table.query(query)
 
     return blp

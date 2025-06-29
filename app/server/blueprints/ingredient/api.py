@@ -1,13 +1,12 @@
-"""
-Blueprint for ingredient routes
-"""
-
 from flask_smorest import Blueprint
-from ..core import IngredientTable
-from ..schemas import IngredientSchema, IngredientQuery
 
 
-def init():
+from ....utils import API_MAJOR_VERSION
+from ...core import IngredientTable
+from ...schemas import IngredientSchema, IngredientQuery
+
+
+def init(url_prefix: str, table: IngredientTable) -> Blueprint:
     """
     Registers the ingredient blueprint with the given API instance.
     """
@@ -15,9 +14,8 @@ def init():
         "Ingredients",
         __name__,
         description="Endpoints for managing ingredients.",
-        url_prefix="/ingredients",
+        url_prefix=f"{url_prefix}/api/v{API_MAJOR_VERSION}/ingredients",
     )
-    ingredient_table = IngredientTable()
 
     @blp.route("/", methods=["GET"])
     @blp.response(200, IngredientSchema(many=True))
@@ -25,7 +23,7 @@ def init():
         """
         Retrieve all ingredients.
         """
-        return ingredient_table.get_many()
+        return table.get_many()
 
     @blp.route("/", methods=["POST"])
     @blp.arguments(IngredientSchema(many=True))
@@ -34,7 +32,7 @@ def init():
         """
         Create new ingredients.
         """
-        return ingredient_table.add_many(ingredients)
+        return table.add_many(ingredients)
 
     @blp.route("/<int:ingredient_id>", methods=["GET"])
     @blp.response(200, IngredientSchema)
@@ -42,7 +40,7 @@ def init():
         """
         Retrieve an ingredient by its ID.
         """
-        return ingredient_table.get_one(ingredient_id)
+        return table.get_one(ingredient_id)
 
     @blp.route("/<int:ingredient_id>", methods=["PUT"])
     @blp.arguments(IngredientSchema)
@@ -51,7 +49,7 @@ def init():
         """
         Update or create an ingredient by its ID.
         """
-        return ingredient_table.update_or_create(ingredient_id, updated_ingredient)
+        return table.update_or_create(ingredient_id, updated_ingredient)
 
     @blp.route("/query", methods=["POST"])
     @blp.arguments(IngredientQuery)
@@ -60,7 +58,7 @@ def init():
         """
         Query for ingredients.
         """
-        return ingredient_table.query(query)
+        return table.query(query)
 
     @blp.route("/<int:ingredient_id>", methods=["DELETE"])
     @blp.response(200)
@@ -68,6 +66,6 @@ def init():
         """
         Delete an ingredient by its ID.
         """
-        return ingredient_table.delete(ingredient_id)
+        return table.delete(ingredient_id)
 
     return blp

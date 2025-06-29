@@ -5,6 +5,8 @@ import sys
 from flask import Flask
 from flask_smorest import Api
 
+from app.utils.envs import API_MAJOR_VERSION
+
 from .server import blueprints, core
 from .utils import API_VERSION, ARCHIVE_PATH, HOST, PORT
 
@@ -45,14 +47,14 @@ def run_flask(args):
         API_VERSION=f"v{API_VERSION}",
         OPENAPI_VERSION="3.0.3",
         OPENAPI_JSON_PATH="openapi.json",
-        OPENAPI_URL_PREFIX=args.url_prefix,
+        OPENAPI_URL_PREFIX=f"{args.url_prefix}/api/v{API_MAJOR_VERSION}",
         OPENAPI_SWAGGER_UI_PATH="/docs",
         OPENAPI_SWAGGER_UI_URL="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.25.0/",
     )
     atexit.register(core.init(args.archive_path))
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     api = Api(app)
-    blueprints.init(api, url_prefix=args.url_prefix)
+    blueprints.init(api, app, url_prefix=args.url_prefix)
     app.run(host=args.host, port=args.port, debug=args.debug)
 
 

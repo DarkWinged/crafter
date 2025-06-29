@@ -35,12 +35,22 @@ class ItemTable:
             abort(404, description=f"Item with id {entry_id} not found")
         return item_row.to_dict(orient="records")[0]
 
+    def get_next_id(self) -> int:
+        """
+        Returns the next available ITEM_ID.
+        """
+        if ItemTable._items.empty:
+            return 0
+        return int(ItemTable._items["ITEM_ID"].max()) + 1
+
     def add_one(self, content: dict) -> dict:
         """
         Adds a new item to the table.
         """
         if content["ITEM_ID"] in ItemTable._items["ITEM_ID"].values:
             abort(409, description=f"ITEM_ID {content['ITEM_ID']} already exists")
+        if not content["NAME"]:
+            abort(400, description="NAME cannot be empty")
         ItemTable._items = pd.concat(
             [
                 ItemTable._items,
@@ -57,6 +67,8 @@ class ItemTable:
         for entry in content:
             if entry["ITEM_ID"] in ItemTable._items["ITEM_ID"].values:
                 abort(409, description=f"ITEM_ID {entry['ITEM_ID']} already exists")
+            if not entry["NAME"]:
+                abort(400, description="NAME cannot be empty")
         ItemTable._items = pd.concat(
             [
                 ItemTable._items,
@@ -77,10 +89,14 @@ class ItemTable:
                 abort(404, description=f"Item with id {entry_id} not found")
             if content["ITEM_ID"] in ItemTable._items["ITEM_ID"].values:
                 abort(409, description=f"ITEM_ID {content['ITEM_ID']} already exists")
+            if not content["NAME"]:
+                abort(400, description="NAME cannot be empty")
             self.add_one(content)
             self.delete(entry_id)
             return {"message": "Item updated successfully"}
         if entry_id in ItemTable._items["ITEM_ID"].values:
+            if not content["NAME"]:
+                abort(400, description="NAME cannot be empty")
             ItemTable._items.loc[ItemTable._items["ITEM_ID"] == entry_id] = (
                 pd.DataFrame([content]).reindex(columns=ItemTable._items.columns).values
             )
