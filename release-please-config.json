@@ -12,7 +12,7 @@
       ]
     },
     "app/server": {
-      "release-type": "simple",
+      "release-type": "python",
       "extra-files": [
         {
           "type": "json",
