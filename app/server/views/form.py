@@ -30,7 +30,6 @@ class Form(WrapperTag):
         autocomplete: bool | None = None,
         **data: str,
     ):
-
         self._tag = f"<{self.TAG} "
         self._add_attribute("method", method)
         self._add_attribute("action", action)

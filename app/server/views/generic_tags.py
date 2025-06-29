@@ -3,7 +3,6 @@ from .wrapper_tag import WrapperTag
 
 
 class GenericTag(WrapperTag):
-
     TAG: Final[Literal[str]] = ""
 
     def __init__(
