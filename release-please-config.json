@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    "app/client": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "versions.json",
+          "jsonpath": "$.API_VERSION"
+        }
+      ]
+    },
+    "app/server": {
+      "release-type": "python",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": "versions.json",
+          "jsonpath": "$.APP_VERSION"
+        }
+      ]
+    }
+  }
+}
