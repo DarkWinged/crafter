@@ -1,7 +1,7 @@
 from typing import Final, Literal
 
 
-from .literals import INPUT_TYPE, LANG_CODE, NUMBER, URL
+from .literals import LANG_CODE, URL
 from .tag import Tag
 
 
