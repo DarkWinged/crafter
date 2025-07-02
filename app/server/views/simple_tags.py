@@ -2,9 +2,9 @@ from typing import Final, Literal
 from .wrapper_tag import WrapperTag
 
 
-class BaseTag(WrapperTag):
+class SimpleTag(WrapperTag):
     """
-    Base class for all HTML tags.
+    Base class for HTML tags that do not require additional attributes.
     """
 
     TAG: Final[Literal[str]] = ""
@@ -14,7 +14,7 @@ class BaseTag(WrapperTag):
         super().__init__(context)
 
 
-class Head(BaseTag):
+class Head(SimpleTag):
     """
     Represents the HTML <head> element.
     """
@@ -22,7 +22,7 @@ class Head(BaseTag):
     TAG: Final[Literal["head"]] = "head"
 
 
-class Title(BaseTag):
+class Title(SimpleTag):
     """
     Represents the HTML <title> element.
     """

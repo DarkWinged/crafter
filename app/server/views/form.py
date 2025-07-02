@@ -17,7 +17,7 @@ class Form(WrapperTag):
         action: str,
         *classes: str,
         identifier: str | None = None,
-        context: str | None = None,
+        context: str | WrapperTag | None = None,
         novalidate: bool | None = None,
         accept_charset: str | None = None,
         style: dict[str, str] | None = None,

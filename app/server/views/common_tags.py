@@ -2,13 +2,17 @@ from typing import Final, Literal
 from .wrapper_tag import WrapperTag
 
 
-class GenericTag(WrapperTag):
+class CommonTag(WrapperTag):
+    """
+    Base class for HTML tags that only accept common attributes.
+    """
+
     TAG: Final[Literal[str]] = ""
 
     def __init__(
         self,
         *classes: str,
-        context: str | None = None,
+        context: str | WrapperTag | None = None,
         identifier: str | None = None,
         style: dict[str, str] | None = None,
         **data: str,
@@ -29,7 +33,7 @@ class GenericTag(WrapperTag):
         super().__init__(context)
 
 
-class Aside(GenericTag):
+class Aside(CommonTag):
     """
     Represents the HTML <aside> element.
     """
@@ -37,7 +41,7 @@ class Aside(GenericTag):
     TAG: Final[Literal["aside"]] = "aside"
 
 
-class Body(GenericTag):
+class Body(CommonTag):
     """
     Represents the HTML <body> element.
     """
@@ -45,7 +49,7 @@ class Body(GenericTag):
     TAG: Final[Literal["body"]] = "body"
 
 
-class Div(GenericTag):
+class Div(CommonTag):
     """
     Represents a HTML <div> element.
     """
@@ -53,7 +57,7 @@ class Div(GenericTag):
     TAG: Final[Literal["div"]] = "div"
 
 
-class Footer(GenericTag):
+class Footer(CommonTag):
     """
     Represents the HTML <footer> element.
     """
@@ -61,7 +65,7 @@ class Footer(GenericTag):
     TAG: Final[Literal["footer"]] = "footer"
 
 
-class OrderedList(GenericTag):
+class OrderedList(CommonTag):
     """
     Represents the HTML <ol> element.
     """
@@ -69,7 +73,7 @@ class OrderedList(GenericTag):
     TAG: Final[Literal["ol"]] = "ol"
 
 
-class UnorderedList(GenericTag):
+class UnorderedList(CommonTag):
     """
     Represents the HTML <ul> element.
     """

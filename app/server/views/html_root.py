@@ -12,10 +12,17 @@ class HTMLRoot(WrapperTag):
     TAG: Final[Literal["html"]] = "html"
     _tag: str
 
-    def __init__(self, lang: LANG_CODE = "en", xmlns: str | None = None):
+    def __init__(
+        self,
+        lang: LANG_CODE = "en",
+        context: (
+            str | None
+        ) = None,  # HtmlRoot only uses context for identification, not for inheritance
+        xmlns: str | None = None,
+    ):
         self._tag = f"<!DOCTYPE html><{self.TAG} "
         self._add_attribute("lang", lang)
         if xmlns:
             self._add_attribute("xmlns", xmlns)
         self._tag += ">"
-        super().__init__()
+        super().__init__(context)

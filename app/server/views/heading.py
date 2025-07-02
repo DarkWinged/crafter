@@ -12,7 +12,7 @@ class Heading(WrapperTag):
     def __init__(
         self,
         *classes: str,
-        context: str | None = None,
+        context: str | WrapperTag | None = None,
         level: int = 1,
         identifier: str | None = None,
         style: dict[str, str] | None = None,

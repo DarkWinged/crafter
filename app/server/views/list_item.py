@@ -13,7 +13,7 @@ class ListItem(WrapperTag):
     def __init__(
         self,
         *classes: str,
-        context: str | None = None,
+        context: str | WrapperTag | None = None,
         identifier: str | None = None,
         style: dict[str, str] | None = None,
         hidden: bool | None = None,
