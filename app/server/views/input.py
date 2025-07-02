@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Final, Literal
 
 
 from .literals import INPUT_TYPE, LANG_CODE, NUMBER, URL
@@ -10,7 +10,7 @@ class Input(Tag):
     An input tag that can be used to create various types of input fields.
     """
 
-    TAG: str = "input"
+    TAG: Final[Literal["input"]] = "input"
 
     def __init__(
         self,

@@ -29,12 +29,12 @@ class GenericTag(WrapperTag):
         super().__init__(context)
 
 
-class Div(GenericTag):
+class Aside(GenericTag):
     """
-    Represents a HTML <div> element.
+    Represents the HTML <aside> element.
     """
 
-    TAG: Final[Literal["div"]] = "div"
+    TAG: Final[Literal["aside"]] = "aside"
 
 
 class Body(GenericTag):
@@ -45,20 +45,20 @@ class Body(GenericTag):
     TAG: Final[Literal["body"]] = "body"
 
 
-class Aside(GenericTag):
+class Div(GenericTag):
     """
-    Represents the HTML <aside> element.
-    """
-
-    TAG: Final[Literal["aside"]] = "aside"
-
-
-class UnorderedList(GenericTag):
-    """
-    Represents the HTML <ul> element.
+    Represents a HTML <div> element.
     """
 
-    TAG: Final[Literal["ul"]] = "ul"
+    TAG: Final[Literal["div"]] = "div"
+
+
+class Footer(GenericTag):
+    """
+    Represents the HTML <footer> element.
+    """
+
+    TAG: Final[Literal["footer"]] = "footer"
 
 
 class OrderedList(GenericTag):
@@ -67,3 +67,11 @@ class OrderedList(GenericTag):
     """
 
     TAG: Final[Literal["ol"]] = "ol"
+
+
+class UnorderedList(GenericTag):
+    """
+    Represents the HTML <ul> element.
+    """
+
+    TAG: Final[Literal["ul"]] = "ul"

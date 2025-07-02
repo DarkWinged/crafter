@@ -4,10 +4,10 @@ This module initializes the blueprints and registers them with the Flask-Smorest
 
 from flask import Flask
 from flask_restful import Api
-from . import base, item, recipe, ingredient, product, favicon
+from . import base, item, recipe, ingredient, product, static
 
 
-def init(api: Api, app: Flask, url_prefix: str = ""):
+def init(api: Api, app: Flask, base_url: str = ""):
     """
     Initialize and register blueprints with Flask-Smorest API.
     """
@@ -18,12 +18,12 @@ def init(api: Api, app: Flask, url_prefix: str = ""):
         product,
         ingredient,
     ]
-    url_prefix = url_prefix.rstrip("/")
+    base_url = base_url.rstrip("/")
     # Register each blueprint with the API instance
-    endpoints = [blueprint.init(url_prefix) for blueprint in blueprints]
-    if url_prefix:
+    endpoints = [blueprint.init(base_url) for blueprint in blueprints]
+    if base_url:
         base_blp = base.init(
-            [endpoint for _, endpoint in endpoints], url_prefix=url_prefix
+            [endpoint for _, endpoint in endpoints], url_prefix=base_url
         )
     else:
         base_blp = base.init([endpoint for _, endpoint in endpoints])
@@ -32,7 +32,7 @@ def init(api: Api, app: Flask, url_prefix: str = ""):
         api.register_blueprint(backend)
         base_blp.register_blueprint(frontend)
     app.register_blueprint(base_blp)
-    favicon.init(app)
+    app.register_blueprint(static.init())
 
 
 __all__ = ["init"]

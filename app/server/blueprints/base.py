@@ -8,31 +8,25 @@ from flask import Response, redirect, url_for
 from flask_smorest import Blueprint
 
 
-from ..views.list_item import ListItem
-from ..views.anchor import Anchor
-from ..views.generic_tags import Aside, Body, Div, UnorderedList
-from ..views.heading import Heading
-from ..views.html_root import HTMLRoot
+from ..views import (
+    ListItem,
+    Anchor,
+    Aside,
+    Body,
+    Div,
+    UnorderedList,
+    Heading,
+    HTMLRoot,
+    Head,
+    Title,
+    Link,
+)
 
 
 from ...utils import API_MAJOR_VERSION
 
 
 logger = logging.getLogger(__name__)
-
-
-aside_style = style = {
-    "position": "fixed",
-    "top": "0",
-    "left": "0",
-    "padding-right": "20px",
-    "height": "100vh",
-    "background-color": "#f8f9fa",
-    "box-shadow": "2px 0 5px rgba(0,0,0,0.1)",
-    "display": "flex",
-    "gap": "10px",
-}
-body_style = {"margin-left": "200px", "padding": "20px", "margin": "200 auto"}
 
 
 def init(endpoints, url_prefix: str | None = None):
@@ -57,7 +51,14 @@ def init(endpoints, url_prefix: str | None = None):
         Returns links to the other blueprints and to the API documentation.
         """
         with HTMLRoot() as context:
-            with Aside(style=aside_style):
+            with Head():
+                context += Link(
+                    rel="stylesheet",
+                    href=url_for("Static.styles"),
+                )
+                with Title():
+                    context += "Craftsman"
+            with Aside("aside-nav"):
                 with UnorderedList():
                     for endpoint in endpoints:
                         with ListItem():
@@ -66,7 +67,7 @@ def init(endpoints, url_prefix: str | None = None):
                     with ListItem():
                         with Anchor(url_for("Base.api")):
                             context += "Documentation"
-            with Body(style=body_style):
+            with Body("body-main"):
                 with Heading(style={"text-align": "center"}):
                     context += "Craftsman"
                 with Div(style={"text-align": "center"}):

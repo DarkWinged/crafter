@@ -87,7 +87,7 @@ class WrapperTag(Tag):
                 self.context_name = context_name
                 self.contexts[self.context_name] = self
 
-        if not hasattr(self, "tag"):
+        if not hasattr(self, "_tag"):
             self._tag = f"<{self.TAG}>"
 
     def __enter__(self) -> WrapperTag:

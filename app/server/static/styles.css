@@ -1,0 +1,30 @@
+.aside-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-right: 20px;
+  height: 100vh;
+  background-color: #f8f9fa;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 10px;
+}
+
+.body-main {
+  margin-left: 200px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: left;
+  gap: 10px;
+}
+
+.form-container > form {
+  gap: 10px;
+  display: flex;
+}

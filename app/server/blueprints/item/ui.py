@@ -8,51 +8,31 @@ from flask import Response, redirect, request, url_for
 from flask_smorest import Blueprint
 
 
-from ...views.anchor import Anchor
-from ...views.list_item import ListItem
-from ...views.input import Input
-from ...views.label import Label
-from ...views.html_root import HTMLRoot
-from ...views.heading import Heading
-from ...views.form import Form
-from ...views.generic_tags import Aside, Body, Div, UnorderedList
 from ...core import ItemTable
+from ...views import (
+    ListItem,
+    Anchor,
+    Aside,
+    Body,
+    Div,
+    UnorderedList,
+    Heading,
+    HTMLRoot,
+    Head,
+    Title,
+    Link,
+    Form,
+    Input,
+    Label,
+)
 
 
 logger = logging.getLogger(__name__)
 
 
-aside_style = {
-    "position": "fixed",
-    "top": "0",
-    "left": "0",
-    "padding-right": "20px",
-    "height": "100vh",
-    "background-color": "#f8f9fa",
-    "box-shadow": "2px 0 5px rgba(0,0,0,0.1)",
-    "display": "flex",
-    "gap": "10px",
-}
-body_style = {
-    "margin-left": "200px",
-    "padding": "20px",
-}
-form_div_style = {
-    "display": "flex",
-    "flex-direction": "row",
-    "gap": "10px",
-    "justify-content": "center",
-}
-form_style = {
-    "gap": "10px",
-    "display": "flex",
-    "flex-direction": "row",
-}
-
-
 def edit_item_form(item_id: int, item_name: str, action: str) -> None:
     form_identifier = f"edit_{item_id}"
-    with Form("POST", action, identifier=form_identifier, style=form_style) as ctx:
+    with Form("POST", action, identifier=form_identifier) as ctx:
         ctx += Input(
             "hidden",
             name="forward_method",
@@ -92,7 +72,7 @@ def edit_item_form(item_id: int, item_name: str, action: str) -> None:
 
 def delete_item_form(item_id: int, action: str) -> None:
     form_identifier = f"delete_{item_id}"
-    with Form("POST", action, identifier=form_identifier, style=form_style) as ctx:
+    with Form("POST", action, identifier=form_identifier) as ctx:
         ctx += Input(
             "hidden",
             name="forward_method",
@@ -118,7 +98,7 @@ def delete_item_form(item_id: int, action: str) -> None:
 
 def new_item_form(next_item_id: int, action: str) -> None:
     form_identifier = f"new_{next_item_id}"
-    with Form("POST", action, identifier=form_identifier, style=form_style) as ctx:
+    with Form("POST", action, "form-container", identifier=form_identifier) as ctx:
         ctx += Input(
             "hidden",
             name="forward_method",
@@ -140,7 +120,6 @@ def new_item_form(next_item_id: int, action: str) -> None:
         name_form = Input(
             "text",
             name="name",
-            style={"margin-right": "5px"},
             form=form_identifier,
             identifier="new_name",
         )
@@ -151,6 +130,11 @@ def new_item_form(next_item_id: int, action: str) -> None:
             "submit",
             name="submit",
             identifier=f"{form_identifier}_submit",
+            style={
+                "padding-right": "6px",
+                "padding-left": "6px",
+                "text-align": "center",
+            },
             form=form_identifier,
             value="Create",
         )
@@ -180,7 +164,14 @@ def init(table: ItemTable) -> Blueprint:
         items_list = table.get_many()
         form_action = url_for("Base.Items.forward_form")
         with HTMLRoot() as context:
-            with Aside(style=aside_style):
+            with Head():
+                context += Link(
+                    rel="stylesheet",
+                    href=url_for("Static.styles"),
+                )
+                with Title():
+                    context += "Craftsman"
+            with Aside("aside-nav"):
                 with UnorderedList():
                     with ListItem():
                         with Anchor(url_for("Base.index")):
@@ -192,7 +183,7 @@ def init(table: ItemTable) -> Blueprint:
                     with ListItem():
                         with Anchor(url_for("Base.api")):
                             context += "Documentation"
-            with Body(style=body_style):
+            with Body("body-main"):
                 with Heading(style={"text-align": "center"}):
                     context += "Items"
                 with Div(
@@ -207,7 +198,7 @@ def init(table: ItemTable) -> Blueprint:
                     for item in items_list:
                         item_id = item["ITEM_ID"]
                         item_name = item["NAME"]
-                        with Div(style=form_div_style):
+                        with Div("form-container"):
                             edit_item_form(
                                 item_id,
                                 item_name,
@@ -219,7 +210,7 @@ def init(table: ItemTable) -> Blueprint:
                             )
 
                     with Div(
-                        style=form_div_style,
+                        "form-container",
                     ):
                         new_item_form(
                             table.get_next_id(),
