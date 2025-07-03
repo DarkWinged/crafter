@@ -3,7 +3,7 @@ This module initializes the blueprints and registers them with the Flask-Smorest
 """
 
 from flask import Flask
-from flask_restful import Api
+from flask_smorest import Api
 
 from . import base, ingredient, item, product, recipe, static
 
