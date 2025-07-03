@@ -1,31 +1,26 @@
-"""
-Blueprint for item routes
-"""
-
 import logging
+
 from bs4 import BeautifulSoup
 from flask import Response, redirect, request, url_for
 from flask_smorest import Blueprint
 
-
 from ...core import ItemTable
 from ...views import (
-    ListItem,
     Anchor,
     Aside,
     Body,
     Div,
-    UnorderedList,
+    Form,
+    Head,
     Heading,
     HTMLRoot,
-    Head,
-    Title,
-    Link,
-    Form,
     Input,
     Label,
+    Link,
+    ListItem,
+    Title,
+    UnorderedList,
 )
-
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +39,7 @@ def edit_item_form(item_id: int, item_name: str, action: str) -> None:
             "number",
             name="id",
             identifier=f"edit_id_{item_id}",
-            value=item_id,
+            value=item_id or "0",
             form=form_identifier,
             readonly=True,
         )
@@ -83,7 +78,7 @@ def delete_item_form(item_id: int, action: str) -> None:
         ctx += Input(
             "hidden",
             name="id",
-            value=item_id,
+            value=item_id or "0",
             readonly=True,
             form=form_identifier,
         )
@@ -109,7 +104,7 @@ def new_item_form(next_item_id: int, action: str) -> None:
         id_form = Input(
             "number",
             name="id",
-            value=next_item_id,
+            value=next_item_id or "0",
             readonly=True,
             form=form_identifier,
             identifier="new_id",
@@ -152,7 +147,6 @@ def init(table: ItemTable) -> Blueprint:
     )
 
     @blp.route("/", methods=["GET"])
-    @blp.doc(exclude=True)
     @blp.response(
         200,
         description="Rendered HTML with the list of items and intractable options to create, update, or delete items.",
@@ -162,7 +156,7 @@ def init(table: ItemTable) -> Blueprint:
         Returns a rendered HTML page with the list of items and options to create, update, or delete items.
         """
         items_list = table.get_many()
-        form_action = url_for("Base.Items.forward_form")
+        submission_endpoint = url_for("Base.Items.forward_form")
         with HTMLRoot() as context:
             with Head():
                 context += Link(
@@ -202,19 +196,18 @@ def init(table: ItemTable) -> Blueprint:
                             edit_item_form(
                                 item_id,
                                 item_name,
-                                form_action,
+                                submission_endpoint,
                             )
                             delete_item_form(
                                 item_id,
-                                form_action,
+                                submission_endpoint,
                             )
-
                     with Div(
                         "form-container",
                     ):
                         new_item_form(
                             table.get_next_id(),
-                            form_action,
+                            submission_endpoint,
                         )
 
         html_content = context.render(
@@ -223,7 +216,6 @@ def init(table: ItemTable) -> Blueprint:
         return Response(html_content, mimetype="text/html")
 
     @blp.route("/", methods=["POST"])
-    @blp.doc(exclude=True)
     @blp.response(200, description="Forward the request and reload the items page.")
     def forward_form():
         """

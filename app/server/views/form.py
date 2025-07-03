@@ -1,6 +1,5 @@
 from typing import Final, Literal
 
-
 from .wrapper_tag import WrapperTag
 
 

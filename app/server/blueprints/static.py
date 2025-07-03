@@ -1,4 +1,5 @@
 import importlib
+
 from flask import send_file
 from flask_smorest import Blueprint
 

@@ -37,6 +37,14 @@ class RecipeTable:
             abort(404, description=f"Recipe with id  {entry_id}  not found")
         return recipe_row.to_dict(orient="records")[0]
 
+    def get_next_id(self) -> int:
+        """
+        Returns the next available RECIPE_ID for a new recipe.
+        """
+        if RecipeTable._recipes.empty:
+            return 0
+        return RecipeTable._recipes["RECIPE_ID"].max() + 1
+
     def add_one(self, content: dict) -> dict:
         """
         Adds a new recipe to the table.

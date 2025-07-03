@@ -1,6 +1,5 @@
 from typing import Final, Literal
 
-
 from .literals import LANG_CODE, URL
 from .tag import Tag
 

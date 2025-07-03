@@ -1,5 +1,5 @@
-from abc import ABC
 import html
+from abc import ABC
 from typing import Final, Literal
 
 

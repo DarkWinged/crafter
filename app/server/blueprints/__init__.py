@@ -4,7 +4,8 @@ This module initializes the blueprints and registers them with the Flask-Smorest
 
 from flask import Flask
 from flask_restful import Api
-from . import base, item, recipe, ingredient, product, static
+
+from . import base, ingredient, item, product, recipe, static
 
 
 def init(api: Api, app: Flask, base_url: str = ""):

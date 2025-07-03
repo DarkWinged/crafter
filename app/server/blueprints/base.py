@@ -3,28 +3,25 @@ Endpoints for the base blueprint aka "/"
 """
 
 import logging
+
 from bs4 import BeautifulSoup
 from flask import Response, redirect, url_for
 from flask_smorest import Blueprint
 
-
+from ...utils import API_MAJOR_VERSION
 from ..views import (
-    ListItem,
     Anchor,
     Aside,
     Body,
     Div,
-    UnorderedList,
+    Head,
     Heading,
     HTMLRoot,
-    Head,
-    Title,
     Link,
+    ListItem,
+    Title,
+    UnorderedList,
 )
-
-
-from ...utils import API_MAJOR_VERSION
-
 
 logger = logging.getLogger(__name__)
 

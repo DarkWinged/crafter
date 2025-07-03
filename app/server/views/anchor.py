@@ -1,6 +1,7 @@
 from typing import Final, Literal
-from .wrapper_tag import WrapperTag
+
 from .literals import FILE_PATH, INDEX, LANG_CODE, RELATION_TYPE, URL
+from .wrapper_tag import WrapperTag
 
 
 class Anchor(WrapperTag):

@@ -1,6 +1,5 @@
-from .basic_tags import Head, Title
 from .anchor import Anchor
-from .generic_tags import (
+from .common_tags import (
     Aside,
     Body,
     Div,
@@ -8,13 +7,14 @@ from .generic_tags import (
     OrderedList,
     UnorderedList,
 )
+from .form import Form
 from .heading import Heading
 from .html_root import HTMLRoot
-from .list_item import ListItem
-from .label import Label
 from .input import Input
+from .label import Label
 from .link import Link
-from .form import Form
+from .list_item import ListItem
+from .simple_tags import Head, Title
 
 __all__ = [
     "Head",
