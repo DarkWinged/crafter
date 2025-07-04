@@ -1,6 +1,6 @@
 from flask_smorest import Blueprint
 
-from ....utils import API_MAJOR_VERSION
+from ... import MAJOR_VERSION
 from ...core import ItemTable
 from ...schemas import ItemQuery, ItemSchema
 
@@ -13,7 +13,7 @@ def init(url_prefix: str, table: ItemTable) -> Blueprint:
         "Items",
         __name__,
         description="Endpoints for managing items.",
-        url_prefix=f"{url_prefix}/api/v{API_MAJOR_VERSION}/items",
+        url_prefix=f"{url_prefix}/api/v{MAJOR_VERSION}/items",
     )
 
     @blp.route("/", methods=["GET"])

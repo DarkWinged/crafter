@@ -1,4 +1,4 @@
-from app import server_core
+from crafter.entrypoint import main
 
 if __name__ == "__main__":
-    server_core.main()
+    main()
