@@ -29,6 +29,14 @@ class ProductTable:
         """
         return ProductTable._products.to_dict(orient="records")
 
+    def get_next_id(self) -> int:
+        """
+        Returns the next available PRODUCT_ID for a new product.
+        """
+        if ProductTable._products.empty:
+            return 0
+        return ProductTable._products["PRODUCT_ID"].max() + 1
+
     def add_many(self, content: list) -> dict:
         """
         Adds multiple new products to the table.

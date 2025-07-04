@@ -39,7 +39,7 @@ def edit_recipe_form(
         )
         id_form = Input(
             "number",
-            name="id",
+            name="ITEM_ID",
             identifier=f"edit_id_{recipe_id}",
             value=recipe_id or "0",
             form=form_identifier,
@@ -50,7 +50,7 @@ def edit_recipe_form(
         ctx += id_form
         name_form = Input(
             "text",
-            name="name",
+            name="NAME",
             value=recipe_name,
             identifier=f"edit_name_{recipe_id}",
             form=form_identifier,
@@ -60,13 +60,13 @@ def edit_recipe_form(
         ctx += name_form
         description_form = Input(
             "text",
-            name="description",
+            name="DESCRIPTION",
             value=recipe_description,
             identifier=f"edit_description_{recipe_id}",
             form=form_identifier,
         )
         with Label(description_form.identifier):
-            ctx += "Description:\t"
+            ctx += "DESCRIPTION:\t"
         ctx += description_form
         submit_button = Input(
             "submit",
@@ -89,7 +89,7 @@ def delete_recipe_form(recipe_id: int, action: str) -> None:
         )
         ctx += Input(
             "hidden",
-            name="id",
+            name="ITEM_ID",
             value=recipe_id or "0",
             identifier=f"delete_id_{recipe_id}",
             form=form_identifier,
@@ -115,27 +115,27 @@ def new_recipe_form(next_id: int, action: str) -> None:
         )
         id_form = Input(
             "number",
-            name="id",
+            name="ITEM_ID",
             identifier=f"new_id_{next_id}",
             value=next_id or "0",
             form=form_identifier,
             readonly=True,
         )
         with Label(id_form.identifier):
-            ctx += "ID:\t"
+            ctx += "ITEM_ID:\t"
         ctx += id_form
         name_form = Input(
             "text",
-            name="name",
+            name="NAME",
             identifier=f"new_name_{next_id}",
             form=form_identifier,
         )
         with Label(name_form.identifier):
-            ctx += "Name:\t"
+            ctx += "NAME:\t"
         ctx += name_form
         description_form = Input(
             "text",
-            name="description",
+            name="DESCRIPTION",
             identifier=f"new_description_{next_id}",
             form=form_identifier,
         )
@@ -235,15 +235,15 @@ def init(table: RecipeTable) -> Blueprint:
         try:
             method = request.form["forward_method"]
             data = request.form.to_dict()
-            recipe_id = int(data["id"])
+            recipe_id = int(data["ITEM_ID"])
 
             if method == "PUT":
                 table.update_or_create(
                     recipe_id,
                     {
                         "RECIPE_ID": recipe_id,
-                        "NAME": data["name"],
-                        "DESCRIPTION": data["description"],
+                        "NAME": data["NAME"],
+                        "DESCRIPTION": data["DESCRIPTION"],
                     },
                 )
         except Exception as e:  # pylint: disable=W0718

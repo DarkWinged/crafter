@@ -40,6 +40,7 @@ def parse_args():
 
 
 def run_flask(args):
+    base_url = args.base_url.rstrip("/")
     app = Flask(f"{args.host} {args.api_title}")
     app.logger.setLevel("DEBUG")
     app.config.update(
@@ -47,14 +48,14 @@ def run_flask(args):
         API_VERSION=f"v{API_VERSION}",
         OPENAPI_VERSION="3.0.3",
         OPENAPI_JSON_PATH="openapi.json",
-        OPENAPI_URL_PREFIX=f"{args.base_url}/api/v{API_MAJOR_VERSION}",
+        OPENAPI_URL_PREFIX=f"{base_url}/api/v{API_MAJOR_VERSION}",
         OPENAPI_SWAGGER_UI_PATH="/docs",
         OPENAPI_SWAGGER_UI_URL="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.25.0/",
     )
     atexit.register(core.init(args.archive))
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     api = Api(app)
-    blueprints.init(api, app, base_url=args.base_url)
+    blueprints.init(api, app, base_url=base_url)
     app.run(host=args.host, port=args.port, debug=args.debug)
 
 

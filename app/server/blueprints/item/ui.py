@@ -37,18 +37,18 @@ def edit_item_form(item_id: int, item_name: str, action: str) -> None:
         )
         id_form = Input(
             "number",
-            name="id",
+            name="ITEM_ID",
             identifier=f"edit_id_{item_id}",
             value=item_id or "0",
             form=form_identifier,
             readonly=True,
         )
         with Label(id_form.identifier):
-            ctx += "ID:\t"
+            ctx += "ITEM_ID:\t"
         ctx += id_form
         name_form = Input(
             "text",
-            name="name",
+            name="NAME",
             value=item_name,
             identifier=f"edit_name_{item_id}",
             form=form_identifier,
@@ -77,7 +77,7 @@ def delete_item_form(item_id: int, action: str) -> None:
         )
         ctx += Input(
             "hidden",
-            name="id",
+            name="ITEM_ID",
             value=item_id or "0",
             readonly=True,
             form=form_identifier,
@@ -103,18 +103,18 @@ def new_item_form(next_item_id: int, action: str) -> None:
         )
         id_form = Input(
             "number",
-            name="id",
+            name="ITEM_ID",
             value=next_item_id or "0",
             readonly=True,
             form=form_identifier,
             identifier="new_id",
         )
         with Label(id_form.identifier):
-            ctx += "ID:\t"
+            ctx += "ITEM_ID:\t"
         ctx += id_form
         name_form = Input(
             "text",
-            name="name",
+            name="NAME",
             form=form_identifier,
             identifier="new_name",
         )
@@ -224,17 +224,17 @@ def init(table: ItemTable) -> Blueprint:
         try:
             method = request.form["forward_method"]
             data = request.form.to_dict()
-            item_id = int(data["id"])
+            item_id = int(data["ITEM_ID"])
 
             if method == "PUT":
-                item_data = {"ITEM_ID": item_id, "NAME": data["name"]}
+                item_data = {"ITEM_ID": item_id, "NAME": data["NAME"]}
                 table.update_or_create(item_id, item_data)
             if method == "DELETE":
                 table.delete(item_id)
         except Exception as e:  # pylint: disable=W0718
             logger.error(
                 "Error modifying item with ID %s: %s",
-                data.get("id", "unknown_id"),
+                data.get("ITEM_ID", "unknown_id"),
                 e,
                 exc_info=True,
             )
