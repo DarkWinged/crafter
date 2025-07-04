@@ -1,6 +1,6 @@
 from flask_smorest import Blueprint
 
-from ... import __version__
+from ... import MAJOR_VERSION
 from ...core import ProductTable
 from ...schemas import ProductSchema, ProductQuery
 
@@ -13,7 +13,7 @@ def init(url_prefix: str, table: ProductTable) -> Blueprint:
         "Products",
         __name__,
         description="Endpoints for managing products.",
-        url_prefix=f"{url_prefix}/api/v{__version__.split('.')[0]}/products",
+        url_prefix=f"{url_prefix}/api/v{MAJOR_VERSION}/products",
     )
 
     @blp.route("/", methods=["GET"])

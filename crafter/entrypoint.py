@@ -7,7 +7,7 @@ from flask_smorest import Api
 
 from utils import ARCHIVE_PATH, HOST, PORT
 
-from . import blueprints, core, __version__
+from . import blueprints, core, __version__, MAJOR_VERSION
 
 
 def parse_args():
@@ -47,7 +47,7 @@ def run_flask(args):
         API_VERSION=f"v{__version__}",
         OPENAPI_VERSION="3.0.3",
         OPENAPI_JSON_PATH="openapi.json",
-        OPENAPI_URL_PREFIX=f"{base_url}/api/v{__version__.split('.')[0]}",
+        OPENAPI_URL_PREFIX=f"{base_url}/api/v{MAJOR_VERSION}",
         OPENAPI_SWAGGER_UI_PATH="/docs",
         OPENAPI_SWAGGER_UI_URL="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.25.0/",
     )

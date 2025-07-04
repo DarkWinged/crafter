@@ -4,7 +4,7 @@ Blueprint for recipe routes
 
 from flask_smorest import Blueprint
 
-from ... import __version__
+from ... import MAJOR_VERSION
 from ...core import RecipeTable
 from ...schemas import RecipeQuery, RecipeSchema
 
@@ -17,7 +17,7 @@ def init(url_prefix: str, table: RecipeTable) -> Blueprint:
         "Recipes",
         __name__,
         description="Endpoints for managing recipes.",
-        url_prefix=f"{url_prefix}/api/v{__version__.split('.')[0]}/recipes",
+        url_prefix=f"{url_prefix}/api/v{MAJOR_VERSION}/recipes",
     )
 
     @blp.route("/", methods=["GET"])

@@ -1,7 +1,7 @@
 from flask_smorest import Blueprint
 
 
-from ... import __version__
+from ... import MAJOR_VERSION
 from ...core import IngredientTable
 from ...schemas import IngredientSchema, IngredientQuery
 
@@ -14,7 +14,7 @@ def init(url_prefix: str, table: IngredientTable) -> Blueprint:
         "Ingredients",
         __name__,
         description="Endpoints for managing ingredients.",
-        url_prefix=f"{url_prefix}/api/v{__version__.split('.')[0]}/ingredients",
+        url_prefix=f"{url_prefix}/api/v{MAJOR_VERSION}/ingredients",
     )
 
     @blp.route("/", methods=["GET"])

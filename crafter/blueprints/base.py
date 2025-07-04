@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from flask import Response, redirect, url_for
 from flask_smorest import Blueprint
 
-from .. import __version__
+from .. import MAJOR_VERSION
 from ..views import (
     Anchor,
     Aside,
@@ -82,7 +82,7 @@ def init(endpoints, url_prefix: str | None = None):
     )
     def api():
         if url_prefix:
-            return redirect(f"{url_prefix}/api/v{__version__.split('.')[0]}/docs")
-        return redirect(f"/api/v{__version__.split('.')[0]}/docs")
+            return redirect(f"{url_prefix}/api/v{MAJOR_VERSION}/docs")
+        return redirect(f"/api/v{MAJOR_VERSION}/docs")
 
     return blp
