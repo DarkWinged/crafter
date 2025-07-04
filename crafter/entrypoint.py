@@ -5,10 +5,9 @@ import sys
 from flask import Flask
 from flask_smorest import Api
 
-from app.utils.envs import API_MAJOR_VERSION
+from utils import ARCHIVE_PATH, HOST, PORT
 
-from .server import blueprints, core
-from .utils import API_VERSION, ARCHIVE_PATH, HOST, PORT
+from . import blueprints, core, __version__
 
 
 def parse_args():
@@ -45,10 +44,10 @@ def run_flask(args):
     app.logger.setLevel("DEBUG")
     app.config.update(
         API_TITLE=args.api_title,
-        API_VERSION=f"v{API_VERSION}",
+        API_VERSION=f"v{__version__}",
         OPENAPI_VERSION="3.0.3",
         OPENAPI_JSON_PATH="openapi.json",
-        OPENAPI_URL_PREFIX=f"{base_url}/api/v{API_MAJOR_VERSION}",
+        OPENAPI_URL_PREFIX=f"{base_url}/api/v{__version__.split('.')[0]}",
         OPENAPI_SWAGGER_UI_PATH="/docs",
         OPENAPI_SWAGGER_UI_URL="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/3.25.0/",
     )

@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Final, Literal
 
-from app.server.views.tag import Tag
+from .tag import Tag
 
 
 class EarlyRenderError(Exception):
