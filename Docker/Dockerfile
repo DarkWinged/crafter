@@ -14,10 +14,6 @@ RUN <<EORUN
     chown craftsman:craftsman ./data
 EORUN
 
-
-ENV API_VERSION="0.0.0"
-ENV APP_VERSION="0.0.0"
-
 ENV ARCHIVE_PATH="/home/craftsman/data"
 ENV SERVER_PORT="5000"
 ENV SERVER_HOST="0.0.0.0"
