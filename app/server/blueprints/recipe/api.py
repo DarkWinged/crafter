@@ -3,11 +3,13 @@ Blueprint for recipe routes
 """
 
 from flask_smorest import Blueprint
-from ..core import RecipeTable
-from ..schemas import RecipeQuery, RecipeSchema
+
+from ....utils import API_MAJOR_VERSION
+from ...core import RecipeTable
+from ...schemas import RecipeQuery, RecipeSchema
 
 
-def init():
+def init(url_prefix: str, table: RecipeTable) -> Blueprint:
     """
     Registers the recipe blueprint with the given API instance.
     """
@@ -15,9 +17,8 @@ def init():
         "Recipes",
         __name__,
         description="Endpoints for managing recipes.",
-        url_prefix="/recipes",
+        url_prefix=f"{url_prefix}/api/v{API_MAJOR_VERSION}/recipes",
     )
-    recipe_table = RecipeTable()
 
     @blp.route("/", methods=["GET"])
     @blp.response(200, RecipeSchema(many=True))
@@ -25,7 +26,7 @@ def init():
         """
         Retrieve all recipes.
         """
-        return recipe_table.get_many()
+        return table.get_many()
 
     @blp.route("/", methods=["POST"])
     @blp.arguments(RecipeSchema(many=True))
@@ -34,7 +35,7 @@ def init():
         """
         Create new recipes.
         """
-        return recipe_table.add_many(recipes)
+        return table.add_many(recipes)
 
     @blp.route("/<int:recipe_id>", methods=["GET"])
     @blp.response(200, RecipeSchema)
@@ -42,7 +43,7 @@ def init():
         """
         Retrieve a recipe by its ID.
         """
-        return recipe_table.get_one(recipe_id)
+        return table.get_one(recipe_id)
 
     @blp.route("/<int:recipe_id>", methods=["PUT"])
     @blp.arguments(RecipeSchema)
@@ -51,7 +52,7 @@ def init():
         """
         Update or create a recipe by its ID.
         """
-        return recipe_table.update_or_create(recipe_id, updated_recipe)
+        return table.update_or_create(recipe_id, updated_recipe)
 
     @blp.route("/<int:recipe_id>", methods=["DELETE"])
     @blp.response(200)
@@ -59,7 +60,7 @@ def init():
         """
         Delete a recipe by its ID.
         """
-        return recipe_table.delete(recipe_id)
+        return table.delete(recipe_id)
 
     @blp.route("/query", methods=["POST"])
     @blp.arguments(RecipeQuery)
@@ -68,6 +69,6 @@ def init():
         """
         Query recipes by the given query.
         """
-        return recipe_table.query(query)
+        return table.query(query)
 
     return blp

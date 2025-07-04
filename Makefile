@@ -23,6 +23,18 @@ down:
 
 reload: down up
 
+rollout: build
+	kubectl rollout restart deployment craftsman
+
+watch:
+	@kubectl wait --for=condition=Ready pod -l app=craftsman
+	kubectl logs -f -l app=craftsman
+
+
+top:
+	@kubectl wait --for=condition=Ready pod -l app=craftsman
+	kubectl top pod -l app=craftsman
+
 status:
 	kubectl get pods -o wide
 	kubectl get services -o wide

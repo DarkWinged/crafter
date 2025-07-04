@@ -33,6 +33,9 @@ def init(path: str) -> None:
         full_path = os.path.join(path, f"{name}.{extension}")
         try:
             content = read(full_path)
+            for i in content:
+                if "ITEM_ID" in i and isinstance(i["ITEM_ID"], str):
+                    i["ITEM_ID"] = int(i["ITEM_ID"])
             table().add_many(content)
         except FileNotFoundError:
             logger.error("File not found: %s", full_path)
@@ -45,6 +48,9 @@ def init(path: str) -> None:
             logger.info("Offloading %s", name)
             full_path = os.path.join(path, f"{name}.{extension}")
             content = table().get_many()
+            for i in content:
+                if "ITEM_ID" in i and isinstance(i["ITEM_ID"], str):
+                    i["ITEM_ID"] = int(i["ITEM_ID"])
             write(full_path, content)
 
     return offload
@@ -52,6 +58,7 @@ def init(path: str) -> None:
 
 __all__ = [
     "init",
+    "TableProtocol",
     "ItemTable",
     "RecipeTable",
     "IngredientTable",

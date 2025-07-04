@@ -1,13 +1,11 @@
-"""
-Blueprint for product routes.
-"""
-
 from flask_smorest import Blueprint
-from ..core import ProductTable
-from ..schemas import ProductSchema, ProductQuery
+
+from ....utils import API_MAJOR_VERSION
+from ...core import ProductTable
+from ...schemas import ProductSchema, ProductQuery
 
 
-def init():
+def init(url_prefix: str, table: ProductTable) -> Blueprint:
     """
     Registers the product blueprint with the given API instance.
     """
@@ -15,9 +13,8 @@ def init():
         "Products",
         __name__,
         description="Endpoints for managing products.",
-        url_prefix="/products",
+        url_prefix=f"{url_prefix}/api/v{API_MAJOR_VERSION}/products",
     )
-    product_table = ProductTable()
 
     @blp.route("/", methods=["GET"])
     @blp.response(200, ProductSchema(many=True))
@@ -25,7 +22,7 @@ def init():
         """
         Retrieve all products.
         """
-        return product_table.get_many()
+        return table.get_many()
 
     @blp.route("/", methods=["POST"])
     @blp.arguments(ProductSchema(many=True))
@@ -34,7 +31,7 @@ def init():
         """
         Create new products.
         """
-        return product_table.add_many(products)
+        return table.add_many(products)
 
     @blp.route("/<int:product_id>", methods=["GET"])
     @blp.response(200, ProductSchema)
@@ -42,7 +39,7 @@ def init():
         """
         Retrieve a product by its ID.
         """
-        return product_table.get_one(product_id)
+        return table.get_one(product_id)
 
     @blp.route("/<int:product_id>", methods=["PUT"])
     @blp.arguments(ProductSchema)
@@ -51,7 +48,7 @@ def init():
         """
         Update or create a product by its ID.
         """
-        return product_table.update_or_create(product_id, updated_product)
+        return table.update_or_create(product_id, updated_product)
 
     @blp.route("/<int:product_id>", methods=["DELETE"])
     @blp.response(200)
@@ -59,7 +56,7 @@ def init():
         """
         Delete a product by its ID.
         """
-        return product_table.delete(product_id)
+        return table.delete(product_id)
 
     @blp.route("/query", methods=["POST"])
     @blp.arguments(ProductQuery)
@@ -68,6 +65,6 @@ def init():
         """
         Query for products.
         """
-        return product_table.query(query)
+        return table.query(query)
 
     return blp

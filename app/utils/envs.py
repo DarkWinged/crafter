@@ -24,3 +24,6 @@ else:
     ARCHIVE_PATH = getenv("ARCHIVE_PATH", "")
     HOST = getenv("SERVER_HOST", "0.0.0.0")
     PORT = getenv("SERVER_PORT") or 5000
+
+API_MAJOR_VERSION = API_VERSION.split(".")[0]
+APP_MAJOR_VERSION = APP_VERSION.split(".")[0]

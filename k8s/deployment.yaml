@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: craftsman
+  namespace: craftsman
+  labels:
+    app: craftsman
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: craftsman
+  template: # add resource requests and limits
+    metadata:
+      labels:
+        app: craftsman
+    spec:
+      containers:
+        - name: craftsman
+          image: registry.internal:80/craftsman:0.3.1
+          imagePullPolicy: Always
+          args:
+            - --url-prefix=/craftsman
+          ports:
+            - containerPort: 5000
+          env:
+            - name: SERVER_PORT
+              value: "5000"
+          volumeMounts:
+            - name: data-volume
+              mountPath: /home/craftsman/data
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - while kill -0 1 2>/dev/null; do sleep 0.1; done
+      volumes:
+        - name: data-volume
+          hostPath:
+            path: /mnt/general/craftsman/data
+            type: DirectoryOrCreate
+      resources:
+        requests:
+          memory: 32Mi
+          cpu: 1m
+        limits:
+          memory: 64Mi
+          cpu: 2m
