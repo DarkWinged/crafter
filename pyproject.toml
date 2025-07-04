@@ -1,6 +1,6 @@
 [project]
 name = "crafter"
-version = "0.1.0"
+version = "0.3.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
@@ -22,10 +22,11 @@ dev = [
 ]
 
 [project.scripts]
-server = "app:server_main"
+server = "crafter.entrypoint:main"
 
 [tool.setuptools]
-packages = ["app"]
+packages = ["crafter", "utils"]
 
 [tool.setuptools.package-data]
-app = ["server/static/*"]
+crafter = ["static/*"]
+    

@@ -4,7 +4,7 @@ Module for the core of the server.
 
 import logging
 import os.path
-from ...utils import read, write
+from utils import read, write
 
 from .product import ProductTable
 from .base import TableProtocol
