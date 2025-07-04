@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from flask import Response, redirect, request, url_for
 from flask_smorest import Blueprint
 
-from ...core import RecipeTable
+from ...core import TableProtocol
 from ...views import (
     Anchor,
     Aside,
@@ -39,7 +39,7 @@ def edit_recipe_form(
         )
         id_form = Input(
             "number",
-            name="ITEM_ID",
+            name="RECIPE_ID",
             identifier=f"edit_id_{recipe_id}",
             value=recipe_id or "0",
             form=form_identifier,
@@ -53,6 +53,7 @@ def edit_recipe_form(
             name="NAME",
             value=recipe_name,
             identifier=f"edit_name_{recipe_id}",
+            required=True,
             form=form_identifier,
         )
         with Label(name_form.identifier):
@@ -63,6 +64,7 @@ def edit_recipe_form(
             name="DESCRIPTION",
             value=recipe_description,
             identifier=f"edit_description_{recipe_id}",
+            required=True,
             form=form_identifier,
         )
         with Label(description_form.identifier):
@@ -89,7 +91,7 @@ def delete_recipe_form(recipe_id: int, action: str) -> None:
         )
         ctx += Input(
             "hidden",
-            name="ITEM_ID",
+            name="RECIPE_ID",
             value=recipe_id or "0",
             identifier=f"delete_id_{recipe_id}",
             form=form_identifier,
@@ -115,14 +117,14 @@ def new_recipe_form(next_id: int, action: str) -> None:
         )
         id_form = Input(
             "number",
-            name="ITEM_ID",
+            name="RECIPE_ID",
             identifier=f"new_id_{next_id}",
             value=next_id or "0",
             form=form_identifier,
             readonly=True,
         )
         with Label(id_form.identifier):
-            ctx += "ITEM_ID:\t"
+            ctx += "RECIPE_ID:\t"
         ctx += id_form
         name_form = Input(
             "text",
@@ -137,6 +139,7 @@ def new_recipe_form(next_id: int, action: str) -> None:
             "text",
             name="DESCRIPTION",
             identifier=f"new_description_{next_id}",
+            required=True,
             form=form_identifier,
         )
         with Label(description_form.identifier):
@@ -151,12 +154,13 @@ def new_recipe_form(next_id: int, action: str) -> None:
                 "padding-left": "6px",
                 "text-align": "center",
             },
+            required=True,
             form=form_identifier,
         )
         ctx += submit_button
 
 
-def init(table: RecipeTable) -> Blueprint:
+def init(table: TableProtocol) -> Blueprint:
     """
     Initializes the UI for the recipe table.
     """
@@ -235,8 +239,7 @@ def init(table: RecipeTable) -> Blueprint:
         try:
             method = request.form["forward_method"]
             data = request.form.to_dict()
-            recipe_id = int(data["ITEM_ID"])
-
+            recipe_id = int(data["RECIPE_ID"])
             if method == "PUT":
                 table.update_or_create(
                     recipe_id,
@@ -246,6 +249,8 @@ def init(table: RecipeTable) -> Blueprint:
                         "DESCRIPTION": data["DESCRIPTION"],
                     },
                 )
+            elif method == "DELETE":
+                table.delete(recipe_id)
         except Exception as e:  # pylint: disable=W0718
             logger.error(f"Error processing form: {e}", exc_info=True)
         return redirect(url_for("Base.Recipes.index"))

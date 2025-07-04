@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from flask import Response, redirect, request, url_for
 from flask_smorest import Blueprint
 
-from ...core import ProductTable
+from ...core import TableProtocol
 from ...views import (
     Anchor,
     Aside,
@@ -183,7 +183,7 @@ def new_product_form(next_id: int, action: str):
         ctx += submit_button
 
 
-def init(table: ProductTable) -> Blueprint:
+def init(table: TableProtocol) -> Blueprint:
     """
     Initializes the UI for product management.
     """
@@ -223,7 +223,7 @@ def init(table: ProductTable) -> Blueprint:
                             context += "Documentation"
             with Body("body-main"):
                 with Heading(style={"text-align": "center"}):
-                    context += "Recipes"
+                    context += "Products"
                 with Div(
                     style={
                         "background-color": "aliceblue",
@@ -276,6 +276,8 @@ def init(table: ProductTable) -> Blueprint:
                         "RATE": int(data["RATE"]),
                     },
                 )
+            elif method == "DELETE":
+                table.delete(product_id)
         except Exception as e:  # pylint: disable=W0718
             logger.error(f"Error processing form: {e}", exc_info=True)
         return redirect(url_for("Base.Products.index"))

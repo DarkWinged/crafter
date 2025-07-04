@@ -58,6 +58,7 @@ def init(path: str) -> None:
 
 __all__ = [
     "init",
+    "TableProtocol",
     "ItemTable",
     "RecipeTable",
     "IngredientTable",

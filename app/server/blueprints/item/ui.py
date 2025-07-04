@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from flask import Response, redirect, request, url_for
 from flask_smorest import Blueprint
 
-from ...core import ItemTable
+from ...core import TableProtocol
 from ...views import (
     Anchor,
     Aside,
@@ -52,6 +52,7 @@ def edit_item_form(item_id: int, item_name: str, action: str) -> None:
             value=item_name,
             identifier=f"edit_name_{item_id}",
             form=form_identifier,
+            required=True,
         )
         with Label(name_form.identifier):
             ctx += "NAME:\t"
@@ -117,6 +118,7 @@ def new_item_form(next_item_id: int, action: str) -> None:
             name="NAME",
             form=form_identifier,
             identifier="new_name",
+            required=True,
         )
         with Label(name_form.identifier):
             ctx += "NAME:\t"
@@ -135,7 +137,7 @@ def new_item_form(next_item_id: int, action: str) -> None:
         )
 
 
-def init(table: ItemTable) -> Blueprint:
+def init(table: TableProtocol) -> Blueprint:
     """
     Initializes the UI blueprint for item management endpoints.
     """
