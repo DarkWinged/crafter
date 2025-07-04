@@ -22,7 +22,7 @@ class TableProtocol(Protocol):
 
     def get_one(self, entry_entry_id: int) -> Dict:
         """
-        Porotocol for getting a single entry from the table.
+        Protocol for getting a single entry from the table.
         """
 
     def get_next_id(self) -> int:
